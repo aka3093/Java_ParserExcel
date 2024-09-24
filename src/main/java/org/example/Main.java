@@ -39,7 +39,7 @@ public class Main {
                 continue;
             }
             // Gathering general data from the Sheet
-            double id = row.getCell(0).getNumericCellValue();
+            int id =(int) row.getCell(0).getNumericCellValue();
             String email = row.getCell(1).getStringCellValue();
             String phone = readCell(row.getCell(2)).replace(" ", "");
             String address = row.getCell(3).getStringCellValue();
@@ -47,23 +47,22 @@ public class Main {
             String iban = row.getCell(13).getStringCellValue();
             String bic = row.getCell(14).getStringCellValue();
             String accountHolder = row.getCell(15).getStringCellValue();
+            BankAccount bankAccount = new BankAccount(iban, bic, accountHolder);
             // Choose appropriate type of user based on Has Children or not (as a flag)
             if (row.getCell(7).getCellType() != CellType.BLANK) {
                 String firstName = row.getCell(5).getStringCellValue();
                 String lastName = row.getCell(6).getStringCellValue();
                 Boolean hasChildren = row.getCell(7).getBooleanCellValue();
-                double age = row.getCell(8).getNumericCellValue();
+                int age =(int) row.getCell(8).getNumericCellValue();
 
-                BankAccount bankAccount = new BankAccount(iban, bic, accountHolder);
-                Individual individual = new Individual((int) id, email, phone, address, firstName, lastName, hasChildren, (int) age, bankAccount);
+                Individual individual = new Individual(id, email, phone, address, firstName, lastName, hasChildren, age, bankAccount);
 
                 individuals.add(individual);
             } else {
                 String companyName = readCell(row.getCell(10));
                 CompanyType typeCompany = CompanyType.valueOf(readCell(row.getCell(11)).toUpperCase());
 
-                BankAccount bankAccount = new BankAccount(iban, bic, accountHolder);
-                Company company = new Company((int) id, email, phone, address, companyName, typeCompany, bankAccount);
+                Company company = new Company(id, email, phone, address, companyName, typeCompany, bankAccount);
 
                 companies.add(company);
             }
@@ -80,8 +79,8 @@ public class Main {
     }
 
     private static XSSFSheet createSheet() throws Exception {
-        File file1 = new File(".\\src\\main\\resources\\test_table.xlsx");
-        FileInputStream file = new FileInputStream(file1);
+        File file1 = new File("src/main/resources/test_table.xlsx"); //.\src\main\resources\
+        FileInputStream file = new FileInputStream(file1.getAbsoluteFile());
 
         XSSFWorkbook workbook = new XSSFWorkbook(file);
         return workbook.getSheetAt(0);

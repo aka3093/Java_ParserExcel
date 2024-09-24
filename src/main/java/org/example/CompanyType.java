@@ -1,3 +1,3 @@
 package org.example;
 
-public enum CompanyType {SARS, SARL};
+public enum CompanyType {SARS, SARL}
