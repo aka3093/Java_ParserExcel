@@ -79,8 +79,8 @@ public class Main {
     }
 
     private static XSSFSheet createSheet() throws Exception {
-        File file1 = new File("src/main/resources/test_table.xlsx"); //.\src\main\resources\
-        FileInputStream file = new FileInputStream(file1.getAbsoluteFile());
+        File file1 = new File(Main.class.getClassLoader().getResource("test_table.xlsx").getFile());
+        FileInputStream file = new FileInputStream(file1);
 
         XSSFWorkbook workbook = new XSSFWorkbook(file);
         return workbook.getSheetAt(0);
